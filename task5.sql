@@ -1,8 +1,11 @@
-SELECT companyname as Company, array_to_string(array_agg(orderid), ', ') as Order_IDs
-FROM customers
-left join orders on customers.customerid = orders.customerid
-GROUP BY companyname
-order by companyname;
-
+select s.companyname, p.productname, p.unitprice
+from products as p
+join suppliers as s
+	on s.supplierid = p.supplierid
+left join products as pp
+	on p.supplierid = pp.supplierid
+	and p.unitprice > pp.unitprice
+where pp.productid is null
+order by p.supplierid, p.unitprice
 
 
